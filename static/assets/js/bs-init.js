@@ -157,10 +157,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             <p style="color: #cdf0ea;">Which state will you be in the Lab?</p>
                             <p style="color: #cdf0ea;">Dont forget to return the state after you leave the Lab.</p>`;
     } else {
-      coutLabel.innerHTML=`<h6 style="color: #ff616d";>There aren no states available \\_(--)_/</h6>`;
+      coutLabel.innerHTML=`<h6 style="color: #ff616d";>There aren no states available \\_(--)_/</h6>
+			    <p style="color: #cdf0ea;">Come back later</p>
+                            <p style="color: #cdf0ea;">or call someome to exchange the state with you.</p>`;
     }
   }
   updateCountLabel()
 
-  setInterval(updateCountLabel, 750);
+  setInterval(updateCountLabel, 200);
 })
