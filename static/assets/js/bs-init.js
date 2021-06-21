@@ -32,32 +32,64 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		card.addEventListener("click", (event) => {
 			let target = event.target || event.srcElement;
 			let clsList = target.classList;
-			let user;
+			let user, charac;
 			clsList.forEach((item, i) => {
 				if (item.startsWith("user")) {
 					user = item.split("-")[1];
 				}
 			});
 
+      let characEl = document.getElementById('charc-'+user);
+
+      switch (user) {
+        case '00':
+          charc = "its so cold in here!";
+          characEl.style.color = "#39a2db";
+          break;
+        case '11':
+          charc = "this heat is killing me!";
+          characEl.style.color = "#ff616d";
+
+          break;
+        case '01':
+          charc = "peace";
+          characEl.style.color = "#ffface";
+
+          break;
+        case '10':
+          charc = "peace";
+          characEl.style.color = "#ffface";
+
+          break;
+        default:
+          charc = "";
+      }
+
 			let user_card = document.getElementById(user)
-			let active
+      console.log(user);
+      console.log(user_card);
+			let active;
 			user_card.classList.forEach((item, i) => {
 				if (item.startsWith("active")) {
 					active = item.split("-")[1];
 				}
 			});
-			console.log();
-      let timeTag = user_card.childNodes[1].childNodes[3]
+			// console.log();
+      let subtitle = user_card.childNodes[1].childNodes[3]
+
+      // console.log(timeTag);
 			if (active == "yes") {
-        timeTag.innerHTML = '';
 				user_card.classList.remove("active-yes");
 				user_card.classList.add("active-no");
 				user_card.style.animationName = "slideout";
 				user_card.style.animationDuration = "1s";
 				sleep(200)
 				user_card.style.backgroundColor = "rgb(12,8,27)";
-				user_card.parentNode.style.order = 1;
+				// user_card.parentNode.style.order = 1;
+        subtitle.innerHTML = "is available"
         // update state on serve
+
+        characEl.innerHTML = "";
 
         let sendPost = async () => {
           let status = 'no';
@@ -65,7 +97,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
           let method = 'POST';
           let response = await fetch(url, { method });
           let data = await response.text(); // or response.json() if your server returns JSON
-          console.log(data);
+          // console.log(data);
 
         }
 
@@ -74,14 +106,18 @@ document.addEventListener("DOMContentLoaded", ()=>{
         //
 
 			} else {
-        timeTag.innerHTML = 'is in lab';
 				user_card.classList.remove("active-no");
 				user_card.classList.add("active-yes");
 				user_card.style.animationName = "slidein";
 				user_card.style.animationDuration = "1s";
 				sleep(200)
-				user_card.style.backgroundColor = "green";
-				user_card.parentNode.style.order = -1;
+				user_card.style.backgroundColor = "#66de93";
+				// user_card.parentNode.style.order = -1;
+        subtitle.innerHTML = "is occupied"
+
+        console.log(user);
+        console.log(charc);
+        characEl.innerHTML = charc;
 
         let sendPost = async () => {
           let status = 'yes';
@@ -89,7 +125,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
           let method = 'POST';
           let response = await fetch(url, { method });
           let data = await response.text(); // or response.json() if your server returns JSON
-          console.log(data);
+          // console.log(data);
 
         }
 
@@ -110,4 +146,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		// 	console.log(target);
 	// 	})
 	// });
+  let coutLabel = document.getElementById('state_count');
+  let stateCount;
+  function updateCountLabel() {
+    stateCount = document.getElementsByClassName('active-no').length;
+    // console.log(stateCount);
+    if (stateCount) {
+      let isare = (stateCount === 1) ? 'is' : 'are'
+      coutLabel.innerHTML=`<h5 style="color: #66de93;">There ${isare} ${stateCount} empty states.</h5>
+                            <p style="color: #cdf0ea;">Which state will you be in the Lab?</p>
+                            <p style="color: #cdf0ea;">Dont forget to return the state after you leave the Lab.</p>`;
+    } else {
+      coutLabel.innerHTML=`<h6 style="color: #ff616d";>There aren no states available \\_(--)_/</h6>`;
+    }
+  }
+  updateCountLabel()
+
+  setInterval(updateCountLabel, 750);
 })

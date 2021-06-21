@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
-users = ['a','b','c','d','e','f','g']
-active = ['no','no','no','no','no','no','no']
+users = ['00','01','10','11']
+active = ['no','no','no','no']
 
 usermap = {v:active[i] for i,v in enumerate(users)}
 

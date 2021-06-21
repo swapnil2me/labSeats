@@ -5,11 +5,11 @@
   }
 
 .card.text-center.m-auto.active-yes  {
-  background: green;
+  background-color: #66de93;
 }
 
 .card.text-center.m-auto.active-no  {
-  background: rgb(12,8,27);
+  background-color: rgb(12,8,27);
 }
 
 @keyframes slidein {
@@ -18,7 +18,7 @@
   }
 
   to {
-    background-color: green;
+    background-color: "#66de93";
   }
 }
 
@@ -28,6 +28,6 @@
   }
 
   from {
-    background-color: green;
+    background-color: "#66de93";
   }
 }
