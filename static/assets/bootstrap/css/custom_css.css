@@ -1,0 +1,33 @@
+.card.text-center.m-auto:hover {
+  box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 43px;
+  transform: translate3d(-1px, -3px, 0px);
+  cursor: pointer;
+  }
+
+.card.text-center.m-auto.active-yes  {
+  background: green;
+}
+
+.card.text-center.m-auto.active-no  {
+  background: rgb(12,8,27);
+}
+
+@keyframes slidein {
+  from {
+    background-color: rgb(12,8,27);
+  }
+
+  to {
+    background-color: green;
+  }
+}
+
+@keyframes slideout {
+  to {
+    background-color: rgb(12,8,27);
+  }
+
+  from {
+    background-color: green;
+  }
+}
