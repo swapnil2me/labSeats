@@ -152,12 +152,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
     stateCount = document.getElementsByClassName('active-no').length;
     // console.log(stateCount);
     if (stateCount) {
-      let isare = (stateCount === 1) ? 'is' : 'are'
-      coutLabel.innerHTML=`<h5 style="color: #66de93;">There ${isare} ${stateCount} empty states.</h5>
+      let isare = (stateCount === 1) ? 'is' : 'are';
+      let s = (stateCount === 1) ? '' : 's';
+      coutLabel.innerHTML=`<h5 style="color: #66de93;">There ${isare} ${stateCount} empty state${s}.</h5>
                             <p style="color: #cdf0ea;">Which state will you be in the Lab?</p>
                             <p style="color: #cdf0ea;">Dont forget to return the state after you leave the Lab.</p>`;
     } else {
-      coutLabel.innerHTML=`<h6 style="color: #ff616d";>There aren no states available \\_(--)_/</h6>
+      coutLabel.innerHTML=`<h5 style="color: #ff616d";>There are no states available \\_(--)_/</h5>
 			    <p style="color: #cdf0ea;">Come back later</p>
                             <p style="color: #cdf0ea;">or call someome to exchange the state with you.</p>`;
     }
