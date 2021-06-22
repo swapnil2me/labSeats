@@ -16,6 +16,9 @@
 // 	});
 // }, false);
 var cards;
+var sessionUser;
+sessionUser = localStorage.getItem("sessionUser");
+
 function sleep(miliseconds) {
    let currentTime = new Date().getTime();
 
@@ -25,10 +28,9 @@ function sleep(miliseconds) {
 
 
 document.addEventListener("DOMContentLoaded", ()=>{
+
 	cards = document.getElementsByClassName("card");
-	// console.log(cards);
 	for (var card of cards) {
-		// console.log(card);
 		card.addEventListener("click", (event) => {
 			let target = event.target || event.srcElement;
 			let clsList = target.classList;
@@ -38,6 +40,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
 					user = item.split("-")[1];
 				}
 			});
+
+      // localStorage.setItem("sessionUser", user);
+      console.log("-----------");
+      console.log(localStorage.getItem("sessionUser"))
+      console.log("-----------");
 
       let characEl = document.getElementById('charc-'+user);
 
@@ -66,70 +73,75 @@ document.addEventListener("DOMContentLoaded", ()=>{
       }
 
 			let user_card = document.getElementById(user)
-      console.log(user);
-      console.log(user_card);
 			let active;
 			user_card.classList.forEach((item, i) => {
 				if (item.startsWith("active")) {
 					active = item.split("-")[1];
 				}
 			});
-			// console.log();
       let subtitle = user_card.childNodes[1].childNodes[3]
 
-      // console.log(timeTag);
-			if (active == "yes") {
-				user_card.classList.remove("active-yes");
-				user_card.classList.add("active-no");
-				user_card.style.animationName = "slideout";
-				user_card.style.animationDuration = "1s";
-				sleep(200)
-				user_card.style.backgroundColor = "rgb(12,8,27)";
-				// user_card.parentNode.style.order = 1;
-        subtitle.innerHTML = "is available"
-        // update state on serve
+			if (active == "yes" ) {
+        console.log(sessionUser,user);
+				if (sessionUser == user) {
+          localStorage.clear();
+          user_card.classList.remove("active-yes");
+  				user_card.classList.add("active-no");
+  				user_card.style.animationName = "slideout";
+  				user_card.style.animationDuration = "1s";
+  				sleep(200)
+  				user_card.style.backgroundColor = "rgb(12,8,27)";
+  				// user_card.parentNode.style.order = 1;
+          subtitle.innerHTML = "is available"
+          // update state on serve
 
-        characEl.innerHTML = "";
+          characEl.innerHTML = "";
 
-        let sendPost = async () => {
-          let status = 'no';
-          let url = `/update/${user}/${status}`; // the URL to send the HTTP request to
-          let method = 'POST';
-          let response = await fetch(url, { method });
-          let data = await response.text(); // or response.json() if your server returns JSON
-          // console.log(data);
+          let sendPost = async () => {
+            let status = 'no';
+            let url = `/update/${user}/${status}`; // the URL to send the HTTP request to
+            let method = 'POST';
+            let response = await fetch(url, { method });
+            let data = await response.text(); // or response.json() if your server returns JSON
 
+          }
+
+          sendPost();
         }
-
-        sendPost();
+        else {
+          console.log("you are not the session user for this card");
+        }
 
         //
 
 			} else {
-				user_card.classList.remove("active-no");
-				user_card.classList.add("active-yes");
-				user_card.style.animationName = "slidein";
-				user_card.style.animationDuration = "1s";
-				sleep(200)
-				user_card.style.backgroundColor = "#66de93";
-				// user_card.parentNode.style.order = -1;
-        subtitle.innerHTML = "is occupied"
 
-        console.log(user);
-        console.log(charc);
-        characEl.innerHTML = charc;
+        if (localStorage.getItem("sessionUser") == null) {
+          localStorage.setItem("sessionUser", user);
+          sessionUser = localStorage.getItem("sessionUser");
+  				user_card.classList.remove("active-no");
+  				user_card.classList.add("active-yes");
+  				user_card.style.animationName = "slidein";
+  				user_card.style.animationDuration = "1s";
+  				sleep(200)
+  				user_card.style.backgroundColor = "#66de93";
+  				// user_card.parentNode.style.order = -1;
+          subtitle.innerHTML = "is occupied"
 
-        let sendPost = async () => {
-          let status = 'yes';
-          let url = `/update/${user}/${status}`; // the URL to send the HTTP request to
-          let method = 'POST';
-          let response = await fetch(url, { method });
-          let data = await response.text(); // or response.json() if your server returns JSON
-          // console.log(data);
+          characEl.innerHTML = charc;
+
+          let sendPost = async () => {
+            let status = 'yes';
+            let url = `/update/${user}/${status}`; // the URL to send the HTTP request to
+            let method = 'POST';
+            let response = await fetch(url, { method });
+            let data = await response.text(); // or response.json() if your server returns JSON
+
+          }
+
+          sendPost();
 
         }
-
-        sendPost();
 
         // update state on serve
 
@@ -137,30 +149,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
         //
 			}
 
-			// console.log();
 		})
 	}
 	// card.forEach((item, i) => {
 		// item.addEventListener("onClick", (event) => {
 		// 	let target = event.target || event.srcElement;
-		// 	console.log(target);
 	// 	})
 	// });
   let coutLabel = document.getElementById('state_count');
   let stateCount;
   function updateCountLabel() {
     stateCount = document.getElementsByClassName('active-no').length;
-    // console.log(stateCount);
     if (stateCount) {
       let isare = (stateCount === 1) ? 'is' : 'are';
       let s = (stateCount === 1) ? '' : 's';
       coutLabel.innerHTML=`<h5 style="color: #66de93;">There ${isare} ${stateCount} empty state${s}.</h5>
-                            <p style="color: #cdf0ea;">Which state will you be in the Lab?</p>
-                            <p style="color: #cdf0ea;">Dont forget to return the state after you leave the Lab.</p>`;
+                           <p style="color: #cdf0ea;">Which state will you be in the Lab?</p>
+                           <p style="color: #cdf0ea;">Dont forget to return the state after you leave the Lab.</p>`;
     } else {
       coutLabel.innerHTML=`<h5 style="color: #ff616d";>There are no states available \\_(--)_/</h5>
-			    <p style="color: #cdf0ea;">Come back later</p>
-                            <p style="color: #cdf0ea;">or call someome to exchange the state with you.</p>`;
+			                     <p style="color: #cdf0ea;">Come back later</p>
+                           <p style="color: #cdf0ea;">or call someome to exchange the state with you.</p>`;
     }
   }
   updateCountLabel()
