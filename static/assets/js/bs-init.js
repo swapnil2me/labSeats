@@ -17,6 +17,7 @@
 // }, false);
 var cards;
 var sessionUser;
+var statusNode;
 sessionUser = localStorage.getItem("sessionUser");
 
 function sleep(miliseconds) {
@@ -29,7 +30,16 @@ function sleep(miliseconds) {
 
 document.addEventListener("DOMContentLoaded", ()=>{
 
-	cards = document.getElementsByClassName("card");
+  statusNode = document.getElementById('status');
+  statusNode.hidden = true;
+  try {
+    document.getElementById('charc-'+sessionUser).innerHTML = localStorage.getItem("statusMessage")
+  } catch (e) {
+    console.log(e);
+  };
+
+
+  cards = document.getElementsByClassName("card");
 	for (var card of cards) {
 		card.addEventListener("click", (event) => {
 			let target = event.target || event.srcElement;
@@ -40,11 +50,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 					user = item.split("-")[1];
 				}
 			});
-
-      // localStorage.setItem("sessionUser", user);
-      console.log("-----------");
-      console.log(localStorage.getItem("sessionUser"))
-      console.log("-----------");
 
       let characEl = document.getElementById('charc-'+user);
 
@@ -82,8 +87,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
       let subtitle = user_card.childNodes[1].childNodes[3]
 
 			if (active == "yes" ) {
-        console.log(sessionUser,user);
-				if (sessionUser == user) {
+        statusNode.hidden = true;
+        if (sessionUser == user) {
           localStorage.clear();
           user_card.classList.remove("active-yes");
   				user_card.classList.add("active-no");
@@ -116,7 +121,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 			} else {
 
+
         if (localStorage.getItem("sessionUser") == null) {
+          statusNode.hidden = false;
           localStorage.setItem("sessionUser", user);
           sessionUser = localStorage.getItem("sessionUser");
   				user_card.classList.remove("active-no");
@@ -151,11 +158,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 		})
 	}
-	// card.forEach((item, i) => {
-		// item.addEventListener("onClick", (event) => {
-		// 	let target = event.target || event.srcElement;
-	// 	})
-	// });
+
   let coutLabel = document.getElementById('state_count');
   let stateCount;
   function updateCountLabel() {
@@ -172,7 +175,25 @@ document.addEventListener("DOMContentLoaded", ()=>{
                            <p style="color: #cdf0ea;">or call someome to exchange the state with you.</p>`;
     }
   }
-  updateCountLabel()
+
+  statusNode["statusMessage"].onfocus = () => {
+    console.log("typing");
+    window.stop()}
+
+  statusNode.onsubmit = (e) => {
+    e.preventDefault();
+    console.log("form submit event");
+    let statusMessage = statusNode["statusMessage"].value;
+    let characEl = document.getElementById('charc-'+sessionUser);
+    localStorage.setItem("statusMessage", statusMessage)
+    characEl.innerHTML = statusMessage;
+    console.log(characEl.innerHTML);
+    statusNode.reset();
+    window.location.reload();
+
+  }
+
+	updateCountLabel()
 
   setInterval(updateCountLabel, 200);
 })
