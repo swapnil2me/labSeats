@@ -4,14 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="refresh" content="5000" >
     <title>NEMS Lab</title>
     <link rel="stylesheet" href="static/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="static/assets/bootstrap/css/custom_css.css">
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
 </head>
 
 <body style="background: #292929;">
@@ -38,31 +37,15 @@
 
 
                 <div class="col" style="padding-top: 10px;padding-bottom: 10px;">
-                    <div class="card text-center m-auto active-{{active[loop.index-1]}} user-{{user}}" id={{user}} data-bss-hover-animate="bounce" style="width: 300px; height: 150px; color: rgb(241,242,242);">
+                    <div class="card text-center m-auto active-{{active[loop.index-1]}} user-{{user}}" id=card-{{user}} data-bss-hover-animate="bounce" style="width: 300px; height: 150px; color: rgb(241,242,242);">
                         <div class="card-body user-{{user}}">
                             <h1 class="card-title user-{{user}}" style="color:#f9dfdc">&#8739;{{user}}&#10217;</h1>
-                            <h6 class="card-subtitle mb-2 user-{{user}}" style="color:#f9dfdc">{% if active[loop.index-1] == 'yes' %} is occupied {% else %} available {% endif %}</h6>
+                            <h6 class="card-subtitle mb-2 user-{{user}}" id=subtitle-{{user}} style="color:#f9dfdc">{% if active[loop.index-1] == 'yes' %} is occupied {% else %} available {% endif %}</h6>
 
                               {% if active[loop.index-1] == 'yes' %}
-                                {% if user == '00' %}
-                                <p class="user-{{user}}" id="charc-00" style="color : #39a2db;">{{optMsg[0]}}</p>
-                                {% elif user == '01' %}
-                                <p class="user-{{user}}" id="charc-01" style="color : #ffface;">{{optMsg[1]}}</p>
-                                {% elif user == '10' %}
-                                <p class="user-{{user}}" id="charc-10" style="color : #ffface;">{{optMsg[2]}}</p>
-                                {% elif user == '11' %}
-                                <p class="user-{{user}}" id="charc-11" style="color : #ff616d;">{{optMsg[3]}}</p>
-                                {% endif %}
+                                <p class="user-{{user}}" id="charc-{{user}}" >{{optMsg[loop.index-1]}}</p>
                               {% else %}
-                                {% if user == '00' %}
-                                <p class="user-{{user}}" id="charc-00" style="color : #39a2db;"> </p>
-                                {% elif user == '01' %}
-                                <p class="user-{{user}}" id="charc-01" style="color : #ffface;"> </p>
-                                {% elif user == '10' %}
-                                <p class="user-{{user}}" id="charc-10" style="color : #ffface;"> </p>
-                                {% elif user == '11' %}
-                                <p class="user-{{user}}" id="charc-11" style="color : #ff616d;"> </p>
-                                {% endif %}
+                                <p class="user-{{user}}" id="charc-{{user}}" > </p>
                               {% endif %}
 
                         </div>
