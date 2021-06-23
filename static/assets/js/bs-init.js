@@ -1,20 +1,4 @@
-//
-// if (window.innerWidth < 768) {
-// 	[].slice.call(document.querySelectorAll('[data-bss-disabled-mobile]')).forEach(function (elem) {
-// 		elem.classList.remove('animated');
-// 		elem.removeAttribute('data-bss-hover-animate');
-// 		elem.removeAttribute('data-aos');
-// 	});
-// }
-//
-// document.addEventListener('DOMContentLoaded', function() {
-//
-// 	var hoverAnimationTriggerList = [].slice.call(document.querySelectorAll('[data-bss-hover-animate]'));
-// 	var hoverAnimationList = hoverAnimationTriggerList.forEach(function (hoverAnimationEl) {
-// 		hoverAnimationEl.addEventListener('mouseenter', function(e){ e.target.classList.add('animated', e.target.dataset.bssHoverAnimate) });
-// 		hoverAnimationEl.addEventListener('mouseleave', function(e){ e.target.classList.remove('animated', e.target.dataset.bssHoverAnimate) });
-// 	});
-// }, false);
+var optMsg = {'00':'its so cold in here!','01':'peace','10':'peace','11':'this heat is killing me!'};
 var cards;
 var sessionUser;
 var statusNode;
@@ -112,6 +96,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
           }
 
           sendPost();
+
+
+          let sendPost_reset_status = async () => {
+            let status = 'yes';
+            let sm = optMsg[user];
+            console.log("---------------");
+            console.log(sm);
+            console.log("---------------");
+
+            let url = `/update_status/${user}/${sm}`; // the URL to send the HTTP request to
+            let method = 'POST';
+            let response = await fetch(url, { method });
+            let data = await response.text(); // or response.json() if your server returns JSON
+            console.log(data);
+          }
+
+          sendPost_reset_status();
         }
         else {
           console.log("you are not the session user for this card");
@@ -188,6 +189,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
     localStorage.setItem("statusMessage", statusMessage)
     characEl.innerHTML = statusMessage;
     console.log(characEl.innerHTML);
+    let sendPost = async () => {
+      let status = 'yes';
+      let url = `/update_status/${sessionUser}/${statusMessage}`; // the URL to send the HTTP request to
+      let method = 'POST';
+      let response = await fetch(url, { method });
+      let data = await response.text(); // or response.json() if your server returns JSON
+
+    }
+
+    sendPost();
     statusNode.reset();
     window.location.reload();
 

@@ -45,13 +45,13 @@
 
                               {% if active[loop.index-1] == 'yes' %}
                                 {% if user == '00' %}
-                                <p class="user-{{user}}" id="charc-00" style="color : #39a2db;">its so cold in here!</p>
+                                <p class="user-{{user}}" id="charc-00" style="color : #39a2db;">{{optMsg[0]}}</p>
                                 {% elif user == '01' %}
-                                <p class="user-{{user}}" id="charc-01" style="color : #ffface;">peace</p>
+                                <p class="user-{{user}}" id="charc-01" style="color : #ffface;">{{optMsg[1]}}</p>
                                 {% elif user == '10' %}
-                                <p id="charc-10" style="color : #ffface;">peace</p>
+                                <p class="user-{{user}}" id="charc-10" style="color : #ffface;">{{optMsg[2]}}</p>
                                 {% elif user == '11' %}
-                                <p class="user-{{user}}" id="charc-11" style="color : #ff616d;">this heat is killing me!</p>
+                                <p class="user-{{user}}" id="charc-11" style="color : #ff616d;">{{optMsg[3]}}</p>
                                 {% endif %}
                               {% else %}
                                 {% if user == '00' %}
