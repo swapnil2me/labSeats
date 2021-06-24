@@ -1,5 +1,8 @@
-var optMsg = {'00':'its so cold in here!','01':'peace','10':'peace','11':'this heat is killing me!'};
-var optMsgColor = {'00':'#39a2db','01':'#ffface','10':'#ffface','11':'#ff616d'};
+var optMsg = {'00':'You can indicate time till you will be in lab by submitting the text above',
+              '01':'You can indicate time till you will be in lab by submitting the text above',
+              '10':'You can indicate time till you will be in lab by submitting the text above',
+              '11':'You can indicate time till you will be in lab by submitting the text above'};
+var optMsgColor = {'00':'#39a2db','01':'#39a2db','10':'#39a2db','11':'#39a2db'};
 var cards;
 var sessionUser;
 var statusNode;
@@ -9,22 +12,19 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // SocketIO Connection
   updateCountLabel();
-  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, {cookie: true});
 
   socket.on("connect", ()=>{
     console.log("socket connected");
 
     if (sessionUser != null) {
       socket.emit('tap in', {'card': sessionUser});
+      socket.emit('status change', {'card': sessionUser, 'status':localStorage.getItem("statusMessage")});
     }
 
     statusNode = document.getElementById('status');
     statusNode.hidden = true;
-    try {
-      document.getElementById('charc-'+sessionUser).innerHTML = localStorage.getItem("statusMessage")
-    } catch (e) {
-      console.log("no session user yet");
-    };
+    
 
     cards = document.getElementsByClassName("card");
   	for (var card of cards) {

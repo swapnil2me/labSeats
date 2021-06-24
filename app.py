@@ -5,13 +5,13 @@ socketio = SocketIO(app)
 
 users = ['00','01','10','11']
 active = ['no','no','no','no']
-optMsg = ['its so cold in here!','peace','peace','this heat is killing me!']
+optMsg = ['','','','']
 
 usermap = {v:active[i] for i,v in enumerate(users)}
 
 @app.route('/')
 def index():
-    return render_template('index.html', users=users, active=active, optMsg = optMsg)
+    return render_template('index.html', users=users, active=active, optMsgs = optMsg)
 
 @app.route('/update_status/<user>/<status>', methods = ['GET', 'POST'])
 def update_status(user,status):
